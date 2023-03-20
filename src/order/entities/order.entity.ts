@@ -50,7 +50,7 @@ export class Order extends Model<orderAttr, Order> {
   product_link: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
   })
   summa: number;
 
@@ -66,7 +66,7 @@ export class Order extends Model<orderAttr, Order> {
 
   @ForeignKey(() => CurrencyType)
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
   })
   currency_type_id: number;
 

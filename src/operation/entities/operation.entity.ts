@@ -17,6 +17,7 @@ interface operationAttrs {
   admin_id: number;
   description: string;
 }
+@Table({ tableName: 'operation' })
 export class Operation extends Model<operationAttrs, Operation> {
   @Column({
     type: DataType.INTEGER,
@@ -31,7 +32,7 @@ export class Operation extends Model<operationAttrs, Operation> {
   })
   order_unique_id: number;
 
-  @ForeignKey(() => Operation)
+  @ForeignKey(() => Status)
   @Column({
     type: DataType.INTEGER,
   })
