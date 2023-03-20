@@ -3,9 +3,10 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { SequelizeModule } from "@nestjs/sequelize";
 import { AdminModule } from "../admin/admin.module";
+import { JwtModule } from "@nestjs/jwt";
 
 @Module({
-  imports:[AdminModule],
+  imports:[AdminModule,JwtModule],
   controllers: [AuthController],
   providers: [AuthService]
 })

@@ -56,4 +56,23 @@ export class AdminService {
     });
     return true;
   }
+
+  async signup(username: string, password: string) {
+    return await this.adminRepo.create({
+      user_name: username,
+      hashed_password: password,
+    });
+  }
+
+  async getWithUsername(user_name: string) {
+    const data = await this.adminRepo.findOne({
+      where: {
+        user_name: user_name,
+      },
+    });
+    if (!data) {
+      return null;
+    }
+    return data;
+  }
 }
