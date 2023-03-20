@@ -7,6 +7,7 @@ import { StatusModule } from './status/status.module';
 import { AdminModule } from './admin/admin.module';
 import { Admin } from './admin/entities/admin.entity';
 import { Status } from './status/entities/status.entity';
+import { CurrencyTypeModule } from './currency_type/currency_type.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { Status } from './status/entities/status.entity';
     }),
     StatusModule,
     AdminModule,
+    CurrencyTypeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
