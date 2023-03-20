@@ -9,6 +9,7 @@ import { Admin } from './admin/entities/admin.entity';
 import { Status } from './status/entities/status.entity';
 import { CurrencyTypeModule } from './currency_type/currency_type.module';
 import { OrderModule } from './order/order.module';
+import { OperationModule } from './operation/operation.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { OrderModule } from './order/order.module';
     AdminModule,
     CurrencyTypeModule,
     OrderModule,
+    OperationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

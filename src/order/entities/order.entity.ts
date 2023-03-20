@@ -9,7 +9,7 @@ import {
 import { CurrencyType } from '../../currency_type/entities/currency_type.entity';
 
 interface orderAttr {
-  id:number;
+  id: number;
   full_name: string;
   phone_number: string;
   product_link: string;
