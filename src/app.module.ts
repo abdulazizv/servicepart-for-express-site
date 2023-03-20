@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { StatusModule } from './status/status.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { StatusModule } from './status/status.module';
       logging: false,
     }),
     StatusModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
