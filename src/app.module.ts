@@ -8,6 +8,7 @@ import { AdminModule } from './admin/admin.module';
 import { Admin } from './admin/entities/admin.entity';
 import { Status } from './status/entities/status.entity';
 import { CurrencyTypeModule } from './currency_type/currency_type.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CurrencyTypeModule } from './currency_type/currency_type.module';
     StatusModule,
     AdminModule,
     CurrencyTypeModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

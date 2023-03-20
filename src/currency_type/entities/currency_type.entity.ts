@@ -1,7 +1,7 @@
 import { Model, Table, DataType, Column } from 'sequelize-typescript';
 
 interface currencyAttr {
-  id:number;
+  id: number;
   name: string;
   description: string;
 }
