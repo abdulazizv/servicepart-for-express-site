@@ -9,6 +9,7 @@ interface adminAttr {
   tg_link: string;
   hashed_token: string;
   is_active: boolean;
+  is_creator: boolean;
   description: string;
 }
 @Table({ tableName: 'admin' })
@@ -50,6 +51,11 @@ export class Admin extends Model<Admin, adminAttr> {
     type: DataType.STRING,
   })
   hashed_token: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+  })
+  is_creator: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
