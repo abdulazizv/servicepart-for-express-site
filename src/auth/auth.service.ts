@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { Admin } from '../admin/entities/admin.entity';
 import { LoginAuthDto } from './dto/login.auth.dto';
+import { Response } from 'express';
 @Injectable()
 export class AuthService {
   constructor(
@@ -13,15 +14,19 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(createAuthDto: CreateAuthDto) {
+  async register(createAuthDto: CreateAuthDto, res: Response) {
     const { user_name, password } = createAuthDto;
     const hashPassword = await bcrypt.hash(password, 7);
     const newAdmin = await this.adminService.signup(user_name, hashPassword);
     const tokens = await this.generateToken(newAdmin);
+    res.cookie('refresh_token', tokens.refreshToken, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
     return tokens;
   }
 
-  async signIn(loginAuthDto: LoginAuthDto) {
+  async signIn(loginAuthDto: LoginAuthDto, res: Response) {
     const { user_name, password } = loginAuthDto;
     const data = await this.adminService.getWithUsername(user_name);
     if (!data) {
@@ -33,7 +38,11 @@ export class AuthService {
     const isDiffer = await bcrypt.compare(data.hashed_password, password);
     if (isDiffer) {
       const tokens = await this.generateToken(data);
-      return { tokens };
+      res.cookie('refresh_token', tokens.refreshToken, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+      return tokens;
     } else {
       throw new HttpException(
         'Password not matched',
