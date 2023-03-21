@@ -13,6 +13,10 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Response } from 'express';
 import { LoginAuthDto } from './dto/login.auth.dto';
+import {
+  cookieGetterAdmin,
+  cookieGetterStuff,
+} from '../common/decorators/getterCookie.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -26,5 +30,12 @@ export class AuthController {
   @Post('signin')
   signIn(@Body() loginAuthDto: LoginAuthDto, @Res() res: Response) {
     return this.authService.signIn(loginAuthDto, res);
+  }
+  @Post('refreshtoken')
+  refreshToken(
+    @cookieGetterAdmin() refreshToken: string,
+    @Res() res: Response,
+  ) {
+    return this.authService.refreshToken(refreshToken, res);
   }
 }

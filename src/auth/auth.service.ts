@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AdminService } from '../admin/admin.service';
@@ -51,8 +56,31 @@ export class AuthService {
     }
   }
 
+  async refreshToken(refresh_token: string, res: Response) {
+    try {
+      const data = await this.verifyRefreshToken(refresh_token);
+      const check = await this.adminService.findOne(data.sub);
+      if (check) {
+        const tokens = await this.generateToken(check);
+        res.cookie('refresh_token', tokens.refreshToken, {
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
+        return tokens;
+      } else {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+    } catch (e) {
+      throw new HttpException('Unhandled Error', HttpStatus.BAD_GATEWAY);
+    }
+  }
   private async generateToken(admin: Admin) {
-    const payload = { email: admin.user_name, id: admin.id };
+    const payload = {
+      username: admin.user_name,
+      id: admin.id,
+      is_active: true,
+      is_creator: admin.is_creator,
+    };
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: process.env.ACCESS_TOKEN_KEY,
@@ -64,5 +92,15 @@ export class AuthService {
       }),
     ]);
     return { accessToken, refreshToken };
+  }
+
+  private async verifyRefreshToken(refresh_token: string) {
+    const nToken = await this.jwtService.verify(refresh_token, {
+      publicKey: process.env.REFRESH_TOKEN_KEY,
+    });
+    if (!nToken.is_active) {
+      throw new UnauthorizedException('Error has been detected during verify');
+    }
+    return nToken;
   }
 }
