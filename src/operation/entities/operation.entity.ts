@@ -8,6 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { Admin } from '../../admin/entities/admin.entity';
 import { Status } from '../../status/entities/status.entity';
+import { Order } from '../../order/entities/order.entity';
 
 interface operationAttrs {
   id: number;
@@ -32,6 +33,11 @@ export class Operation extends Model<operationAttrs, Operation> {
   })
   order_unique_id: number;
 
+  @ForeignKey(() => Order)
+  @Column({
+    type: DataType.INTEGER,
+  })
+  order_id: number;
   @ForeignKey(() => Status)
   @Column({
     type: DataType.INTEGER,

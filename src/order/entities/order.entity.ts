@@ -5,8 +5,10 @@ import {
   Column,
   BelongsTo,
   ForeignKey,
+  HasMany,
 } from 'sequelize-typescript';
 import { CurrencyType } from '../../currency_type/entities/currency_type.entity';
+import { Operation } from '../../operation/entities/operation.entity';
 
 interface orderAttr {
   id: number;
@@ -72,4 +74,7 @@ export class Order extends Model<orderAttr, Order> {
 
   @BelongsTo(() => CurrencyType)
   currencyType: CurrencyType;
+
+  @HasMany(() => Operation)
+  operation: Operation;
 }
