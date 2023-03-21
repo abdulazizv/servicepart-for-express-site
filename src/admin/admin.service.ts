@@ -58,10 +58,19 @@ export class AdminService {
   }
 
   async signup(username: string, password: string) {
-    return await this.adminRepo.create({
-      user_name: username,
-      hashed_password: password,
-    });
+    const allAdmins = await this.adminRepo.findAll();
+    if (allAdmins.length < 1) {
+      return await this.adminRepo.create({
+        user_name: username,
+        hashed_password: password,
+        is_creator: true,
+      });
+    } else {
+      return await this.adminRepo.create({
+        user_name: username,
+        hashed_password: password
+      });
+    }
   }
 
   async getWithUsername(user_name: string) {

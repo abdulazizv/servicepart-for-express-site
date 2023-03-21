@@ -1,22 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Res,
-} from '@nestjs/common';
+import { Controller, Post, Body, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Response } from 'express';
 import { LoginAuthDto } from './dto/login.auth.dto';
-import {
-  cookieGetterAdmin,
-  cookieGetterStuff,
-} from '../common/decorators/getterCookie.decorator';
+import { cookieGetterAdmin } from '../common/decorators/getterCookie.decorator';
 
 @Controller('auth')
 export class AuthController {
