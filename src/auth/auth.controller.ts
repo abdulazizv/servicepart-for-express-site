@@ -21,7 +21,7 @@ export class AuthController {
   @Post('refreshtoken')
   refreshToken(
     @cookieGetterAdmin() refreshToken: string,
-    @Res() res: Response,
+    @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.refreshToken(refreshToken, res);
   }
